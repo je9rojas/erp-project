@@ -1,12 +1,25 @@
-const { handlePurchase } = require('../controllers/purchaseController');
+const { savePurchase } = require('../services/purchaseService');
 
-function purchaseRoutes(req, res) {
-    if (req.method === 'POST' && req.url === '/purchases') {
-        handlePurchase(req, res);
+module.exports = async function (req, res) {
+    if (req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString();
+        });
+        req.on('end', async () => {
+            try {
+                const purchaseData = JSON.parse(body);
+                const savedPurchase = await savePurchase(purchaseData);
+                res.writeHead(201, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Purchase saved successfully', data: savedPurchase }));
+            } catch (error) {
+                console.error('Error saving purchase:', error);
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Error saving purchase' }));
+            }
+        });
     } else {
-        res.writeHead(404, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ message: 'Route not found in purchases' }));
+        res.writeHead(405, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Method not allowed' }));
     }
-}
-
-module.exports = purchaseRoutes;
+};

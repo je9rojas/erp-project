@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ERP Frontend</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Welcome to the ERP</h1>
+    <form id="purchaseForm">
+        <label for="item">Item:</label>
+        <input type="text" id="item" name="item" required>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" name="quantity" required>
+        <button type="submit">Submit</button>
+    </form>
+    <script src="app.js"></script>
+</body>
+</html>
+
+
+<!--
+
+/erp-project
+├── /back-end
+│   ├── /config
+│   │   ├── database.js
+│   │   ├── env.js
+│   ├── /routes
+│   │   ├── purchases.js
+│   ├── /controllers
+│   │   ├── purchaseController.js
+│   ├── /services
+│   │   ├── purchaseService.js
+│   ├── server.js
+├── /front-end
+│   ├── index.html
+│   ├── app.js
+│   ├── styles.css
+├── .env
+├── .gitignore
+└── README.md
+
+
+mongodb+srv://<db_username>:<db_password>@erp-cluster.fzyhb.mongodb.net/?retryWrites=true&w=majority&appName=ERP-cluster
+
+-->

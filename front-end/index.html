@@ -1,48 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ERP Frontend</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulario de Compras</title>
+  <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-    <h1>Welcome to the ERP</h1>
-    <form id="purchaseForm">
-        <label for="item">Item:</label>
-        <input type="text" id="item" name="item" required>
-        <label for="quantity">Quantity:</label>
-        <input type="number" id="quantity" name="quantity" required>
-        <button type="submit">Submit</button>
-    </form>
-    <script src="app.js"></script>
+  <h1>Formulario de Compras</h1>
+  <!-- Formulario de compras -->
+  <form id="purchaseForm">
+    <label for="code">Codigo:</label>
+    <input type="text" id="code" name="code" required>
+    <br>
+
+    <label for="productType">Tipo:</label>
+    <input type="text" id="productType" name="productType" required>
+    <br>
+
+    <label for="marca">Marca:</label>
+    <input type="text" id="marca" name="marca" required>
+    <br>
+
+    <label for="quantity">Cantidad:</label>
+    <input type="number" id="quantity" name="quantity" required>
+    <br>
+
+    <label for="price">Precio:</label>
+    <input type="number" id="price" name="price" step="0.001" required>
+    <br>
+
+    <label for="purchaseDate">Fecha de compra:</label>
+    <input type="date" id="purchaseDate" name="purchaseDate" required>
+    <br>
+
+    <button type="submit">Submit</button>
+  </form>
+
+  <!-- Tabla para mostrar el historial de compras -->
+  <h2>Historial de Compras</h2>
+  <table id="purchaseHistoryTable" border="1">
+    <thead>
+      <tr>
+        <th>Codigo</th>
+        <th>Tipo</th>
+        <th>Marca</th>
+        <th>Cantidad</th>
+        <th>Precio</th>
+        <th>Fecha de Compra</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Las filas se generarán dinámicamente -->
+    </tbody>
+  </table>
+
+  <!-- Script que maneja la lógica -->
+  <script src="/assets/js/purchaseModel.js"></script>
 </body>
 </html>
-
-
-<!--
-
-/erp-project
-├── /back-end
-│   ├── /config
-│   │   ├── database.js
-│   │   ├── env.js
-│   ├── /routes
-│   │   ├── purchases.js
-│   ├── /controllers
-│   │   ├── purchaseController.js
-│   ├── /services
-│   │   ├── purchaseService.js
-│   ├── server.js
-├── /front-end
-│   ├── index.html
-│   ├── app.js
-│   ├── styles.css
-├── .env
-├── .gitignore
-└── README.md
-
-
-mongodb+srv://<db_username>:<db_password>@erp-cluster.fzyhb.mongodb.net/?retryWrites=true&w=majority&appName=ERP-cluster
-
--->
