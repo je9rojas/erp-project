@@ -1,5 +1,6 @@
 // Importa la función para obtener la conexión a la base de datos
 const { getDatabase } = require('../config/database');
+const { ObjectId } = require('mongodb'); // Importa ObjectId para manejar IDs de MongoDB
 
 // Función para guardar una nueva compra en la base de datos
 async function savePurchase(purchaseData) {
@@ -36,32 +37,25 @@ async function getAllPurchases() {
     }
 }
 
-// Exporta las funciones para que puedan ser usadas en otros módulos
-module.exports = { savePurchase, getAllPurchases };
-
-
-
-
-
-
-/*
-
-const { getDatabase } = require('../config/database');
-
-async function savePurchase(purchaseData) {
-    console.log('Saving purchase to MongoDB Atlas...');
-    const db = getDatabase();
-    const collection = db.collection('purchases');
+// Función para eliminar una compra por su ID
+async function deletePurchaseById(id) {
+    console.log(`Deleting purchase with ID: ${id} from MongoDB Atlas...`);
+    const db = getDatabase(); // Obtiene la instancia de la base de datos
+    const collection = db.collection('purchases'); // Selecciona la colección 'purchases'
 
     try {
-        const result = await collection.insertOne(purchaseData);
-        console.log('Purchase saved successfully:', { ...purchaseData, _id: result.insertedId });
-        return { ...purchaseData, _id: result.insertedId }; // Incluye el ID generado por MongoDB
+        // Convierte el ID a ObjectId y elimina la compra correspondiente
+        const result = await collection.deleteOne({ _id: new ObjectId(id) });
+        if (result.deletedCount === 0) {
+            throw new Error('Purchase not found or already deleted');
+        }
+        console.log('Purchase deleted successfully');
+        return true; // Indica que la compra fue eliminada
     } catch (error) {
-        console.error('Error saving purchase to MongoDB Atlas:', error);
-        throw error;
+        console.error('Error deleting purchase from MongoDB Atlas:', error);
+        throw error; // Lanza el error para que sea manejado por el controlador
     }
 }
 
-module.exports = { savePurchase };
-*/
+// Exporta las funciones para que puedan ser usadas en otros módulos
+module.exports = { savePurchase, getAllPurchases, deletePurchaseById };

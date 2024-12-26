@@ -78,64 +78,36 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>${purchase.quantity}</td>
             <td>${purchase.price}</td>
             <td>${purchase.purchaseDate}</td>
+            <td>
+                <button class="delete-btn" data-id="${purchase._id}">Eliminar</button>
+            </td>
         `;
-        console.log('Added purchase to table:', purchase); // Log para depuración
+
+        // Agregar evento al botón de eliminar
+        const deleteButton = row.querySelector('.delete-btn');
+        deleteButton.addEventListener('click', () => deletePurchase(purchase._id, row));
     }
-});
 
-
-
-/*
-document.addEventListener('DOMContentLoaded', () => {
-    const purchaseForm = document.getElementById('purchaseForm');
-    const purchaseTable = document.getElementById('purchaseHistoryTable').getElementsByTagName('tbody')[0];
-
-    // Enviar formulario al backend
-    purchaseForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-
-        // Obtener datos del formulario
-        const purchaseData = {
-            code: document.getElementById('code').value,
-            productType: document.getElementById('productType').value,
-            marca: document.getElementById('marca').value,
-            quantity: parseInt(document.getElementById('quantity').value, 10),
-            price: parseFloat(document.getElementById('price').value),
-            purchaseDate: document.getElementById('purchaseDate').value,
-        };
-
+    // Función para eliminar una compra
+    async function deletePurchase(purchaseId, row) {
         try {
-            // Enviar datos al backend
-            const response = await fetch('http://localhost:3000/purchases', {
-                method: 'POST',
+            console.log(`Deleting purchase with ID: ${purchaseId}`);
+            // Enviar solicitud DELETE al backend
+            const response = await fetch(`http://localhost:3000/purchases/${purchaseId}`, {
+                method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(purchaseData),
             });
 
-            const result = await response.json();
             if (response.ok) {
-                alert('Compra registrada exitosamente.');
-                addPurchaseToTable(result.data);
+                alert('Compra eliminada exitosamente.');
+                row.remove(); // Eliminar la fila de la tabla
             } else {
-                alert(`Error: ${result.message}`);
+                console.error('Error deleting purchase:', await response.text());
+                alert('Error al eliminar la compra.');
             }
         } catch (error) {
-            console.error('Error submitting purchase:', error);
-            alert('Error al registrar la compra.');
+            console.error('Error deleting purchase:', error);
+            alert('Error al conectar con el servidor para eliminar la compra.');
         }
-    });
-
-    // Agregar una fila a la tabla
-    function addPurchaseToTable(purchase) {
-        const row = purchaseTable.insertRow();
-        row.innerHTML = `
-            <td>${purchase.code}</td>
-            <td>${purchase.productType}</td>
-            <td>${purchase.marca}</td>
-            <td>${purchase.quantity}</td>
-            <td>${purchase.price}</td>
-            <td>${purchase.purchaseDate}</td>
-        `;
     }
 });
-*/
